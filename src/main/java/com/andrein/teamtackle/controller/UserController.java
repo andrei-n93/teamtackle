@@ -1,32 +1,35 @@
 package com.andrein.teamtackle.controller;
 
 import com.andrein.teamtackle.entity.User;
-import com.andrein.teamtackle.repository.UserRepository;
+import com.andrein.teamtackle.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.ResponseEntity.notFound;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+        User savedUser = userService.createUser(user);
+        return ok(savedUser);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
+        return userService.findById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(notFound().build());
     }
 }
 
