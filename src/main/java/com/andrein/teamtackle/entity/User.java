@@ -28,7 +28,7 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
-    @Email(message = "Email should be valid") //TODO: multiple users with the same email
+    @Email(message = "Email should be valid")
     private String email;
 
     private String role;
