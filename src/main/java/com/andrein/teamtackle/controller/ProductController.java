@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -30,6 +32,11 @@ public class ProductController {
         return productService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(notFound().build());
+    }
+
+    @GetMapping
+    public List<Product> getProducts() {
+        return productService.findAllProducts();
     }
 }
 
